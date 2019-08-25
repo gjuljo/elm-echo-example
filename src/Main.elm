@@ -10,11 +10,6 @@ import Json.Decode.Pipeline exposing (optional, required)
 import Json.Encode as Encode
 
 
-type alias ContentFromServer =
-    { content : String
-    }
-
-
 type alias ResponseFromServer =
     { result : String
     }
