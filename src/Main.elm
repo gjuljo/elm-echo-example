@@ -5,14 +5,8 @@ import Html exposing (..)
 import Html.Attributes exposing (action, checked, class, id, method, name, placeholder, src, title, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Http
-import Json.Decode as Decode exposing (Decoder, Value, bool, int, list, string)
-import Json.Decode.Pipeline exposing (optional, required)
-import Json.Encode as Encode
-
-
-type alias ContentFromServer =
-    { content : String
-    }
+import Process exposing (..)
+import Task exposing (..)
 
 
 type alias ResponseFromServer =
@@ -25,35 +19,26 @@ type alias Model =
     }
 
 
-messageToServerEncoder : Model -> Http.Body
-messageToServerEncoder model =
+makeFakeResponse : String -> ResponseFromServer
+makeFakeResponse input =
     let
-        attributes =
-            [ ( "content", Encode.string model.content )
-            ]
+        result =
+            String.split " " input |> List.reverse |> String.join " "
     in
-    attributes
-        |> Encode.object
-        |> Http.jsonBody
-
-
-responseFromServerDecoder : Decoder ResponseFromServer
-responseFromServerDecoder =
-    Decode.succeed ResponseFromServer
-        |> required "result" string
+    { result = result }
 
 
 sendContentToServer : Model -> Cmd Msg
 sendContentToServer model =
     let
-        body =
-            messageToServerEncoder model
+        myTask =
+            model.content
+                |> makeFakeResponse
+                |> Task.succeed
     in
-    Http.post
-        { body = body
-        , expect = Http.expectJson HandleResponse responseFromServerDecoder
-        , url = "/revert"
-        }
+    Process.sleep 1000
+        |> Task.andThen (always myTask)
+        |> Task.attempt HandleResponse
 
 
 initialModel : Model
