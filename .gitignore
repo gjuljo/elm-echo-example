@@ -1,0 +1,18 @@
+# elm package generated files
+elm-stuff
+
+# elm repl generated files
+repl-temp-*
+
+# elm output build
+public/js/elm.js
+public/js/elm.min.js
+elm.js
+
+# node modules and packages
+node_modules
+package-lock.json
+.*.swp
+
+# go binary
+*.exe
