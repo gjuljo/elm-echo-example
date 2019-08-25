@@ -59,7 +59,7 @@ func main() {
 			} else if msg.MessageContent != "" {
 				rsp := reverseResponse{ResponseResult: revert(msg.MessageContent)}
 
-				log.Println("revering:", msg.MessageContent, "->", rsp.ResponseResult)
+				log.Println("reverting:", msg.MessageContent, "->", rsp.ResponseResult)
 
 				w.Header().Set("Content-Type", "application/json; charset=utf-8")
 				w.WriteHeader(http.StatusOK)
