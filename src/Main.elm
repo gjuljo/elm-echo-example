@@ -23,7 +23,10 @@ makeFakeResponse : String -> ResponseFromServer
 makeFakeResponse input =
     let
         result =
-            String.split " " input |> List.reverse |> String.join " "
+            input
+            |> String.split " " 
+            |> List.reverse 
+            |> String.join " "
     in
     { result = result }
 
